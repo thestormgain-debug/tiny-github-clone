@@ -61,7 +61,7 @@ async function register(port: number): Promise<void> {
 }
 
 /** Poll GET /done until it answers {"done":true}; never return before that. */
-// The suite answers done:false while it runs; the process never exits before done:true.
+// The suite answers done:false while it runs; exit 0 only after done:true.
 async function waitForDone(): Promise<void> {
   for (let attempt = 0; ; attempt += 1) {
     try {
