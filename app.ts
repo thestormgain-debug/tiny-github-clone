@@ -184,6 +184,7 @@ function bearerToken(request: IncomingMessage): string | null {
 
 /** Build the forge server: one store, one HTTP listener (not yet bound). */
 export function createApp(): import('node:http').Server {
+  // The login is bound on the first owner path an authenticated request names; every later owner-scoped request must match it or is 404.
   const login = 'user'; // bound to the token's owner on the first owner path an authenticated request names
   const token = (process.env.MAKEFUN_SHOP_TOKEN ?? '').trim();
   const store = createStore(login);

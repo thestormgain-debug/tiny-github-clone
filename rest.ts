@@ -225,6 +225,7 @@ function handleRepoRoute(
       repo.updatedAt = nowIso();
       return json(200, repoJson(repo), requestId);
     }
+    // DELETE answers 204 with an empty body; a later GET must answer 404 JSON.
     if (method === 'DELETE') {
       store.repos.delete(repo.name);
       return json(204, '', requestId);

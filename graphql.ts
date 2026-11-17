@@ -850,6 +850,7 @@ function runMutation(field: string, args: Record<string, unknown>, ctx: Ctx): un
     }
     return tag(field === 'closeIssue' ? 'CloseIssuePayload' : 'UpdateIssuePayload', { issue: tag('Issue', { repoKey: ref.repoKey, number: ref.number } as GqlIssue) });
   }
+  // createPullRequest takes a repository id and a head branch pushed over git.
   if (field === 'createPullRequest') {
     const repoId = String(input.repositoryId ?? '');
     const decoded = decodeNodeId(repoId);
@@ -1139,6 +1140,7 @@ function executeDocument(store: Store, document: { query?: string; variables?: R
     ctx.errors.push({ message: err instanceof Error ? err.message : String(err) });
     data = null;
   }
+  // GraphQL v4: HTTP status stays 200 even when the errors array is non-empty; data may be null for an unknown repository.
   const body: Record<string, unknown> = { data };
   if (ctx.errors.length > 0) body.errors = ctx.errors;
   return { status: 200, body };

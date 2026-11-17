@@ -283,6 +283,7 @@ function handleMcpMessage(store: Store, message: Record<string, unknown>): Recor
     return null;
   }
   if (method === 'tools/list') {
+    // tools/list is idempotent: two calls must answer the same tools array, byte for byte.
     return { jsonrpc: '2.0', id, result: { tools: TOOLS.map((tool) => ({ ...tool })) } };
   }
   if (method === 'tools/call') {
